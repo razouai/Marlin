@@ -2129,7 +2129,7 @@
   #define FILAMENT_UNLOAD_PURGE_FEEDRATE      25  // (mm/s) feedrate to purge before unload
 
   #define PAUSE_PARK_NOZZLE_TIMEOUT           45  // (seconds) Time limit before the nozzle is turned off for safety.
-  #define FILAMENT_CHANGE_ALERT_BEEPS          6  // Number of alert beeps to play when a response is needed.
+  #define FILAMENT_CHANGE_ALERT_BEEPS          2  // Number of alert beeps to play when a response is needed.
   #define PAUSE_PARK_NO_STEPPER_TIMEOUT           // Enable for XYZ steppers to stay powered on during filament change.
 
   #define PARK_HEAD_ON_PAUSE                      // Park the nozzle during pause and filament change.
@@ -3388,7 +3388,7 @@
  * Adds capability to work with any adjustable current drivers.
  * Implemented as G34 because M915 is deprecated.
  */
-#define MECHANICAL_GANTRY_CALIBRATION
+//#define MECHANICAL_GANTRY_CALIBRATION
 #if ENABLED(MECHANICAL_GANTRY_CALIBRATION)
   #define GANTRY_CALIBRATION_CURRENT          600     // Default calibration current in ma
   #define GANTRY_CALIBRATION_EXTRA_HEIGHT      15     // Extra distance in mm past Z_###_POS to move

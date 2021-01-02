@@ -741,14 +741,14 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 440 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 415 }
 
 /**
  * Default Max Feed Rate (mm/s)
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 500, 500, 10, 50 }
+#define DEFAULT_MAX_FEEDRATE          { 750, 750, 15, 75 }
 
 #define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -761,11 +761,11 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 500, 500, 100, 50 }
+#define DEFAULT_MAX_ACCELERATION      { 100, 100, 100, 50 }
 
 #define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
-  #define MAX_ACCEL_EDIT_VALUES       { 750, 750, 100, 50 } // ...or, set your own edit limits
+  #define MAX_ACCEL_EDIT_VALUES       { 150, 150, 100, 50 } // ...or, set your own edit limits
 #endif
 
 /**
@@ -776,9 +776,9 @@
  *   M204 R    Retract Acceleration
  *   M204 T    Travel Acceleration
  */
-#define DEFAULT_ACCELERATION           500    // X, Y, Z and E acceleration for printing moves
-#define DEFAULT_RETRACT_ACCELERATION  100    // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION    500    // X, Y, Z acceleration for travel (non printing) moves
+#define DEFAULT_ACCELERATION           100    // X, Y, Z and E acceleration for printing moves
+#define DEFAULT_RETRACT_ACCELERATION  50    // E acceleration for retracts
+#define DEFAULT_TRAVEL_ACCELERATION    100    // X, Y, Z acceleration for travel (non printing) moves
 
 /**
  * Default Jerk limits (mm/s)
@@ -986,7 +986,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 45, 0, -2.35 }
+#define NOZZLE_TO_PROBE_OFFSET { 45, 0, -2.23 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
@@ -1108,7 +1108,7 @@
 
 //#define UNKNOWN_Z_NO_RAISE      // Don't raise Z (lower the bed) if Z is "unknown." For beds that fall when Z is powered off.
 
-//#define Z_HOMING_HEIGHT  4      // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
+#define Z_HOMING_HEIGHT  4      // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
                                   // Be sure to have this much clearance over your Z_MAX_POS to prevent grinding.
 
 //#define Z_AFTER_HOMING  10      // (mm) Height to move to after homing Z
@@ -1122,15 +1122,15 @@
 // @section machine
 
 // The size of the print bed
-#define X_BED_SIZE 296 // Nozzle is at X4 when homed
-#define Y_BED_SIZE 298 // Nozzle is at Y2 when homed
+#define X_BED_SIZE 310 // Nozzle is at X4 when homed
+#define Y_BED_SIZE 310 // Nozzle is at Y2 when homed
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
 #define X_MIN_POS 0
 #define Y_MIN_POS 0
-#define Z_MIN_POS -2
-#define X_MAX_POS 319 // 15mm Extra space on the right end
-#define Y_MAX_POS 306 // 4mm Extra space behind the bed
+#define Z_MIN_POS 0
+#define X_MAX_POS X_BED_SIZE // 15mm Extra space on the right end
+#define Y_MAX_POS Y_BED_SIZE // 4mm Extra space behind the bed
 #define Z_MAX_POS 400
 
 /**
@@ -1159,7 +1159,7 @@
 #endif
 
 #if EITHER(MIN_SOFTWARE_ENDSTOPS, MAX_SOFTWARE_ENDSTOPS)
-  //#define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD
+  #define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD
 #endif
 
 /**
@@ -1185,7 +1185,7 @@
   // After a runout is detected, continue printing this length of filament
   // before executing the runout script. Useful for a sensor at the end of
   // a feed tube. Requires 4 bytes SRAM per sensor, plus 4 bytes overhead.
-  //#define FILAMENT_RUNOUT_DISTANCE_MM 25
+  #define FILAMENT_RUNOUT_DISTANCE_MM 5
 
   #ifdef FILAMENT_RUNOUT_DISTANCE_MM
     // Enable this option to use an encoder disc that toggles the runout pin
@@ -1262,7 +1262,7 @@
   // split up moves into short segments like a Delta. This follows the
   // contours of the bed more closely than edge-to-edge straight moves.
   #define SEGMENT_LEVELED_MOVES
-  #define LEVELED_SEGMENT_LENGTH 5.0 // (mm) Length of all segments (except the last one)
+  #define LEVELED_SEGMENT_LENGTH 20.0 // (mm) Length of all segments (except the last one)
 
   /**
    * Enable the G26 Mesh Validation Pattern tool.
@@ -1389,13 +1389,13 @@
 #define Z_SAFE_HOMING
 
 #if ENABLED(Z_SAFE_HOMING)
-  #define Z_SAFE_HOMING_X_POINT 150 // X point for Z homing when homing all axes (G28).
-  #define Z_SAFE_HOMING_Y_POINT 150 // Y point for Z homing when homing all axes (G28).
+  #define Z_SAFE_HOMING_X_POINT X_CENTER // X point for Z homing when homing all axes (G28).
+  #define Z_SAFE_HOMING_Y_POINT Y_CENTER // Y point for Z homing when homing all axes (G28).
 #endif
 
 // Homing speeds (mm/m)
-#define HOMING_FEEDRATE_XY (40*60)
-#define HOMING_FEEDRATE_Z  (8*60)
+#define HOMING_FEEDRATE_XY (50*60)
+#define HOMING_FEEDRATE_Z  (6*60)
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
